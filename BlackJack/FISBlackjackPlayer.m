@@ -12,7 +12,7 @@
 
 -(instancetype) init {
     
-    self = [self initWithName:@""]; 
+    self = [self initWithName:@""];
     
     return self;
 }
@@ -43,9 +43,78 @@
 }
 
 
+//-(void)calculateHandScore{
+//    
+//    for(FISCard *cardWorth in self.cardsInHand){
+//        if([cardWorth.cardLabel containsString:@"A"]){
+//            self.aceInHand = YES;
+//            if(self.handscore <= 11){
+//                self.handscore += 10;
+//            }
+//            else {
+//                self.handscore += 1;
+//            }
+//        }
+//        else {
+//            self.handscore += cardWorth.cardValue;
+//        }
+//    }
+//    
+//    if ([self.cardsInHand count] == 2 && self.handscore == 21){
+//        self.blackjack = YES;
+//    }
+//    else if (self.handscore > 21){
+//        self.busted = YES;
+//    }
+//
+//}
+
+-(NSUInteger)detectAce{
+    
+    NSUInteger aceCount = 0;
+    
+    for (FISCard *card in self.cardsInHand){
+        if([card.rank isEqualToString:@"A"]){
+            self.aceInHand = YES;
+            aceCount ++;
+        }
+    }
+    
+    return aceCount;
+}
+
 
 -(void)acceptCard:(FISCard *)card{
     
+    [self.cardsInHand addObject:card];
+    NSLog(@"\n\n\n\n\n\n\n\nthe card is: %@", card.cardLabel);
+    
+    NSUInteger score = card.cardValue;
+    
+    if([self detectAce] > 0){
+        
+        if (self.handscore <= 11 && [self detectAce] == 1)
+        score = 11;
+        else if (self.handscore > 11 || [self detectAce] > 1){
+            score = 1;
+        }
+    }
+    else {
+        score = card.cardValue;
+    }
+    
+    self.handscore += score;
+    
+    if(self.handscore > 21){
+        self.busted = YES;
+        return;
+    }
+    else if (self.handscore == 21){
+        self.blackjack = YES;
+        return;
+    }
+    
+    NSLog(@"score is: %lu, total handscore: %lu", score, self.handscore);
 }
 
 
