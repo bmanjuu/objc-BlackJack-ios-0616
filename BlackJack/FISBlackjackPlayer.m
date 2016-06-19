@@ -40,34 +40,17 @@
 
 -(void)resetForNewGame{
     
+    //maybe use a convenience initializer and call on that! 
+    
+    [self.cardsInHand removeAllObjects];
+    self.handscore = 0;
+    self.aceInHand = NO;
+    self.stayed = NO;
+    self.blackjack = NO;
+    self.busted = NO;
+    
 }
 
-
-//-(void)calculateHandScore{
-//    
-//    for(FISCard *cardWorth in self.cardsInHand){
-//        if([cardWorth.cardLabel containsString:@"A"]){
-//            self.aceInHand = YES;
-//            if(self.handscore <= 11){
-//                self.handscore += 10;
-//            }
-//            else {
-//                self.handscore += 1;
-//            }
-//        }
-//        else {
-//            self.handscore += cardWorth.cardValue;
-//        }
-//    }
-//    
-//    if ([self.cardsInHand count] == 2 && self.handscore == 21){
-//        self.blackjack = YES;
-//    }
-//    else if (self.handscore > 21){
-//        self.busted = YES;
-//    }
-//
-//}
 
 -(NSUInteger)detectAce{
     
@@ -86,8 +69,11 @@
 
 -(void)acceptCard:(FISCard *)card{
     
+    //refactor this!
+    //do not need to loop through self.cardsInHand b/c the test automatically runs this for each card in hand 
+    
     [self.cardsInHand addObject:card];
-    NSLog(@"\n\n\n\n\n\n\n\nthe card is: %@", card.cardLabel);
+    // NSLog(@"\n\n\n\n\n\n\n\nthe card is: %@", card.cardLabel);
     
     NSUInteger score = card.cardValue;
     
@@ -114,13 +100,35 @@
         return;
     }
     
-    NSLog(@"score is: %lu, total handscore: %lu", score, self.handscore);
+    // NSLog(@"score is: %lu, total handscore: %lu", score, self.handscore);
 }
 
 
 
 -(BOOL)shouldHit{
-    return NO; 
+    
+    if(self.handscore >= 16){
+        self.stayed = YES;
+        NSLog(@"%@", [NSString stringWithFormat:@"You have decided to stay at a score of %lu", self.handscore]);
+        return NO;
+    }
+    
+    return YES;
+}
+
+-(NSString *)description{
+    
+    NSMutableString *playerInfo = [[NSMutableString alloc] initWithString:@"\nname: %@ \ncards: "];
+    
+    for(FISCard *card in self.cardsInHand){
+        [playerInfo appendFormat:@"%@ ", card.cardLabel];
+    }
+    
+    [playerInfo appendFormat:@"\nhandscore: %lu \nace in hand: %d \nstayed: %d \nblackjack: %d \nbusted: %d \nwins: %lu \nlosses: %lu", self.handscore, self.aceInHand, self.stayed, self.blackjack, self.busted, self.wins, self.losses]; 
+    
+    // refactor opportunity: call on initializer to print out info?
+    
+    return playerInfo;
 }
 
 @end
