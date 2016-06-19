@@ -109,7 +109,7 @@
     
     if(self.handscore >= 16){
         self.stayed = YES;
-        NSLog(@"%@", [NSString stringWithFormat:@"You have decided to stay at a score of %lu", self.handscore]);
+        NSLog(@"%@", [NSString stringWithFormat:@"%@ has decided to stay at a score of %lu", self.name, self.handscore]);
         return NO;
     }
     

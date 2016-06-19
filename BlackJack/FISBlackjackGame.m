@@ -29,6 +29,12 @@
 
 -(void)playBlackjack{
     
+    [self dealNewRound];
+    [self processPlayerTurn];
+    [self processHouseTurn];
+    [self houseWins];
+    [self incrementWinsAndLossesForHouseWins:[self houseWins]];
+    
 }
 
 
@@ -99,17 +105,24 @@
 
 -(void)incrementWinsAndLossesForHouseWins:(BOOL)houseWins{
     
+    NSMutableString *winnerOfGame = [[NSMutableString alloc] initWithString:@"...and the winner is: "];
+    
     if(houseWins){
+        [winnerOfGame appendFormat:@"%@", [self.house.name uppercaseString]];
         self.house.wins++;
         self.player.losses++;
     }
     else{
+        [winnerOfGame appendFormat:@"%@", [self.player.name uppercaseString]];
         self.player.wins++;
         self.house.losses++;
     }
     
-    NSLog(@"%@", [NSString stringWithFormat:@"house wins: %lu \nhouse losses: %lu \nplayer wins: %lu \nplayer losses: %lu", self.house.wins, self.house.losses, self.player.wins, self.player.losses]);
+    [winnerOfGame appendString:@"!!!\n The scores so far are:\n"];
     
+//    NSLog(@"%@", [NSString stringWithFormat:@"house wins: %lu \nhouse losses: %lu \nplayer wins: %lu \nplayer losses: %lu", self.house.wins, self.house.losses, self.player.wins, self.player.losses]);
+    
+    NSLog(@"%@ \nplayer: \n%@\n\n house: \n%@\n\n", winnerOfGame, self.player.description, self.house.description);
 }
 
 @end
