@@ -118,7 +118,7 @@
 
 -(NSString *)description{
     
-    NSMutableString *playerInfo = [[NSMutableString alloc] initWithString:@"\nname: %@ \ncards: "];
+    NSMutableString *playerInfo = [[NSMutableString alloc] initWithFormat:@"\nname: %@ \ncards: ", self.name];
     
     for(FISCard *card in self.cardsInHand){
         [playerInfo appendFormat:@"%@ ", card.cardLabel];
