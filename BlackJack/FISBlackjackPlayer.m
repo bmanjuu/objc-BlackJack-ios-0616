@@ -69,7 +69,7 @@
 
 -(void)acceptCard:(FISCard *)card{
     
-    //refactor this!
+    //REFACTOR THIS LATER!
     //do not need to loop through self.cardsInHand b/c the test automatically runs this for each card in hand 
     
     [self.cardsInHand addObject:card];
@@ -126,7 +126,7 @@
     
     [playerInfo appendFormat:@"\nhandscore: %lu \nace in hand: %d \nstayed: %d \nblackjack: %d \nbusted: %d \nwins: %lu \nlosses: %lu", self.handscore, self.aceInHand, self.stayed, self.blackjack, self.busted, self.wins, self.losses]; 
     
-    // refactor opportunity: call on initializer to print out info?
+    // refactor opportunity: call on initializer (make convenience?) to print out info?
     
     return playerInfo;
 }
